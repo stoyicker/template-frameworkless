@@ -2,7 +2,7 @@ package lrucache
 
 import kotlin.properties.Delegates
 
-internal abstract class Cache<T : Any>(maxCapacityProvided: Int) {
+internal abstract class Cache<T>(maxCapacityProvided: Int) {
     protected var maxCapacity by Delegates.vetoable(DEFAULT_CAPACITY, { _, _, new -> new >= 1})
         private set
 
@@ -10,7 +10,7 @@ internal abstract class Cache<T : Any>(maxCapacityProvided: Int) {
         maxCapacity = maxCapacityProvided
     }
 
-    abstract fun put(key: String, value: T?)
+    abstract fun put(key: String, value: T)
 
     abstract fun get(key: String): T?
 }

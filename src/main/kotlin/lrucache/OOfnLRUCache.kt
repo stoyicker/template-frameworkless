@@ -1,9 +1,9 @@
 package lrucache
 
-internal class OOfnLRUCache<T : Any>(maxCapacity: Int) : Cache<T>(maxCapacity) {
-    private var delegate = emptyMap<String, ValueWrapper<T>?>()
+internal class OOfnLRUCache<T>(maxCapacity: Int) : Cache<T>(maxCapacity) {
+    private var delegate = emptyMap<String, ValueWrapper<T>>()
 
-    override fun put(key: String, value: T?) {
+    override fun put(key: String, value: T) {
         synchronized(delegate) {
             if (!delegate.containsKey(key) && delegate.size >= maxCapacity) {
                 removeLeastRecentlyUsed()
@@ -19,7 +19,7 @@ internal class OOfnLRUCache<T : Any>(maxCapacity: Int) : Cache<T>(maxCapacity) {
     private fun removeLeastRecentlyUsed() {
         delegate.entries.fold("", { currentKey, entry ->
             val currentLRUValueWrapper = delegate[currentKey]
-            if (currentLRUValueWrapper?.usage ?: Long.MIN_VALUE >= entry.value?.usage ?: Long.MIN_VALUE) {
+            if (currentLRUValueWrapper?.usage ?: Long.MIN_VALUE >= entry.value.usage) {
                 currentKey
             } else {
                 entry.key

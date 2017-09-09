@@ -1,42 +1,56 @@
 package lrucache
 
-internal class FIFOLRUCache<T: Any>(maxCapacity: Int) : Cache<T>(maxCapacity) {
-    private var delegate = emptyMap<Node, T?>()
-    private var mostRecentlyUsed: Node? = null
-    private var leastRecentlyUsed: Node? = null
+internal class FIFOLRUCache<T>(maxCapacity: Int) : Cache<T>(maxCapacity) {
+    private var delegate = emptyMap<String, Node<T>>()
+    private var mostRecentlyUsed: Node<T>? = null
+    private var leastRecentlyUsed: Node<T>? = null
 
-    override fun put(key: String, value: T?) {
+    override fun put(key: String, value: T) {
         synchronized(delegate) {
-            if (!delegate.containsKey(Node(key)) && delegate.size >= maxCapacity) {
+            if (!delegate.containsKey(key) && delegate.size >= maxCapacity) {
                 removeLeastRecentlyUsed()
                 put(key, value)
             } else {
-                val wrappedKey = Node(key, mostRecentlyUsed)
-                delegate += wrappedKey to value
-                mostRecentlyUsed?.after = wrappedKey
-                mostRecentlyUsed = wrappedKey
+                val wrappedValue = Node(key, value, null)
+                delegate += key to wrappedValue
+                if (leastRecentlyUsed == null) {
+                    leastRecentlyUsed = mostRecentlyUsed
+                }
+                mostRecentlyUsed?.firstOneUsedAfterIt = wrappedValue
+                mostRecentlyUsed = wrappedValue
             }
         }
     }
 
     override fun get(key: String): T? {
-        val boxedKey = Node(key)
-        mostRecentlyUsed?.after = boxedKey
-        mostRecentlyUsed = boxedKey
-        return delegate[Node(key)]
+        synchronized(delegate) {
+            if (!delegate.containsKey(key)) {
+                return null
+            }
+            val selected = delegate[key]!!
+            if (selected == leastRecentlyUsed) {
+                leastRecentlyUsed = leastRecentlyUsed?.firstOneUsedAfterIt
+            } else {
+                var current = leastRecentlyUsed!!
+                while (current.firstOneUsedAfterIt != selected) {
+                    current = current.firstOneUsedAfterIt!!
+                }
+                current.firstOneUsedAfterIt = selected.firstOneUsedAfterIt
+            }
+            mostRecentlyUsed!!.firstOneUsedAfterIt = selected
+            mostRecentlyUsed = selected
+            selected.firstOneUsedAfterIt = null
+            return selected.value
+        }
     }
 
     private fun removeLeastRecentlyUsed() {
-        leastRecentlyUsed = leastRecentlyUsed?.after
+        if (leastRecentlyUsed == null) {
+            return
+        }
+        delegate -= leastRecentlyUsed!!.key
+        leastRecentlyUsed = leastRecentlyUsed?.firstOneUsedAfterIt
     }
 
-    private class Node(val value: String, var after: Node? = null) {
-        override fun equals(other: Any?): Boolean {
-            return value == other
-        }
-
-        override fun hashCode(): Int {
-            return value.hashCode()
-        }
-    }
+    private class Node<T>(val key: String, val value: T, var firstOneUsedAfterIt: Node<T>? = null)
 }
