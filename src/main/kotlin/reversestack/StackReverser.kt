@@ -5,16 +5,16 @@ internal object StackReverser {
         if (!stack.isEmpty()) {
             val value = stack.pop()
             reverse(stack)
-            pushWrapper(stack, value)
+            pushToBottom(stack, value)
         }
     }
 
-    private fun <T> pushWrapper(stack: Stack<T>, value: T) {
+    private fun <T> pushToBottom(stack: Stack<T>, value: T) {
         if (stack.isEmpty()) {
             stack.push(value)
         } else {
             val innerValue = stack.pop()
-            pushWrapper(stack, value)
+            pushToBottom(stack, value)
             stack.push(innerValue)
         }
     }
