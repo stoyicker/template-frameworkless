@@ -5,7 +5,7 @@ internal class OOfnLRUCache<T : Any>(private val maxSizeItems: Int) {
 
     fun put(key: String, value: T) {
         synchronized(delegate) {
-            if (delegate.size >= maxSizeItems) {
+            if (!delegate.containsKey(key) && delegate.size >= maxSizeItems) {
                 removeLeastRecentlyUsed()
                 put(key, value)
             } else {
@@ -15,6 +15,8 @@ internal class OOfnLRUCache<T : Any>(private val maxSizeItems: Int) {
     }
 
     fun get(key: String): T? = delegate[key]?.get()
+
+    fun remove(key: String) { delegate -= key }
 
     private fun removeLeastRecentlyUsed() {
         delegate.entries.fold("", { currentKey, entry ->
