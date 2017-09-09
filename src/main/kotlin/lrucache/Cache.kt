@@ -12,7 +12,7 @@ internal abstract class Cache<T>(maxCapacityProvided: Int) {
 
     abstract fun put(key: String, value: T)
 
-    abstract fun get(key: String): T?
+    abstract operator fun get(key: String): T?
 }
 
 private const val DEFAULT_CAPACITY = 1
