@@ -13,11 +13,11 @@ internal class FIFOLRUCache<T>(maxCapacity: Int) : Cache<T>(maxCapacity) {
             } else {
                 val wrappedValue = Node(key, value, null)
                 delegate += key to wrappedValue
+                mostRecentlyUsed?.firstOneUsedAfterIt = wrappedValue
+                mostRecentlyUsed = wrappedValue
                 if (leastRecentlyUsed == null) {
                     leastRecentlyUsed = mostRecentlyUsed
                 }
-                mostRecentlyUsed?.firstOneUsedAfterIt = wrappedValue
-                mostRecentlyUsed = wrappedValue
             }
         }
     }
