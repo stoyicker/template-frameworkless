@@ -17,6 +17,8 @@ internal class FIFOLRUCache<T>(maxCapacity: Int) : Cache<T>(maxCapacity) {
                 mostRecentlyUsed = wrappedValue
                 if (leastRecentlyUsed == null) {
                     leastRecentlyUsed = mostRecentlyUsed
+                } else if (leastRecentlyUsed!!.key == key) {
+                    leastRecentlyUsed = leastRecentlyUsed!!.firstOneUsedAfterIt
                 }
             }
         }
