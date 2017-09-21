@@ -1,58 +1,73 @@
 package lrucache
 
 internal class FIFOLRUCache<T>(maxCapacity: Int) : Cache<T>(maxCapacity) {
-    private var delegate = emptyMap<String, Node<T>>()
-    private var mostRecentlyUsed: Node<T>? = null
     private var leastRecentlyUsed: Node<T>? = null
+    private var mostRecentlyUsed: Node<T>? = null
+    private var size = 0
 
     override fun put(key: String, value: T) {
-        synchronized(delegate) {
-            if (!delegate.containsKey(key) && delegate.size >= maxCapacity) {
+        synchronized(this) {
+            if (leastRecentlyUsed?.containsKey(key) != true && size >= maxCapacity) {
                 removeLeastRecentlyUsed()
-                put(key, value)
-            } else {
-                val wrappedValue = Node(key, value, null)
-                delegate += key to wrappedValue
-                mostRecentlyUsed?.firstOneUsedAfterIt = wrappedValue
-                mostRecentlyUsed = wrappedValue
-                if (leastRecentlyUsed == null) {
-                    leastRecentlyUsed = mostRecentlyUsed
-                } else if (leastRecentlyUsed!!.key == key) {
-                    leastRecentlyUsed = leastRecentlyUsed!!.firstOneUsedAfterIt
-                }
             }
+            val wrappedValue = Node(key, value, null)
+            if (mostRecentlyUsed == null) {
+                mostRecentlyUsed = wrappedValue
+                leastRecentlyUsed = wrappedValue
+            } else {
+                var current = leastRecentlyUsed
+                if (key != leastRecentlyUsed!!.key) {
+                    while (true) {
+                        if (current == null || current.firstOneUsedAfterIt?.key == key) {
+                            break
+                        }
+                        current = current.firstOneUsedAfterIt
+                    }
+                    current?.firstOneUsedAfterIt = current?.firstOneUsedAfterIt?.firstOneUsedAfterIt
+                } else {
+                    leastRecentlyUsed!!.firstOneUsedAfterIt = null
+                }
+                mostRecentlyUsed!!.firstOneUsedAfterIt = wrappedValue
+                mostRecentlyUsed = wrappedValue
+            }
+            size++
         }
     }
 
     override fun get(key: String): T? {
-        synchronized(delegate) {
-            if (!delegate.containsKey(key)) {
-                return null
-            }
-            val selected = delegate[key]!!
-            if (selected == leastRecentlyUsed) {
-                leastRecentlyUsed = leastRecentlyUsed?.firstOneUsedAfterIt
-            } else {
-                var current = leastRecentlyUsed!!
-                while (current.firstOneUsedAfterIt != selected) {
-                    current = current.firstOneUsedAfterIt!!
+        synchronized(this) {
+            var beforeWhatWeAreAfter = leastRecentlyUsed
+            if (key != leastRecentlyUsed!!.key) {
+                while (true) {
+                    if (beforeWhatWeAreAfter == null || beforeWhatWeAreAfter.firstOneUsedAfterIt?.key == key) {
+                        break
+                    }
+                    beforeWhatWeAreAfter = beforeWhatWeAreAfter.firstOneUsedAfterIt
                 }
-                current.firstOneUsedAfterIt = selected.firstOneUsedAfterIt
+            } else {
+                leastRecentlyUsed!!.firstOneUsedAfterIt = null
             }
-            mostRecentlyUsed!!.firstOneUsedAfterIt = selected
-            mostRecentlyUsed = selected
-            selected.firstOneUsedAfterIt = null
-            return selected.value
+            if (beforeWhatWeAreAfter != null) {
+                beforeWhatWeAreAfter.firstOneUsedAfterIt?.let {
+                    mostRecentlyUsed?.firstOneUsedAfterIt = it
+                    mostRecentlyUsed = it
+                }
+            }
+            return beforeWhatWeAreAfter?.firstOneUsedAfterIt?.value
         }
     }
 
     private fun removeLeastRecentlyUsed() {
-        if (leastRecentlyUsed == null) {
-            return
+        synchronized(this) {
+            if (leastRecentlyUsed == null) {
+                return
+            }
+            leastRecentlyUsed = leastRecentlyUsed?.firstOneUsedAfterIt
         }
-        delegate -= leastRecentlyUsed!!.key
-        leastRecentlyUsed = leastRecentlyUsed?.firstOneUsedAfterIt
     }
 
-    private class Node<T>(val key: String, val value: T, var firstOneUsedAfterIt: Node<T>? = null)
+    private class Node<T>(val key: String, val value: T, var firstOneUsedAfterIt: Node<T>? = null) {
+        internal fun containsKey(key: String): Boolean = this.key == key ||
+                firstOneUsedAfterIt?.containsKey(key) ?: false
+    }
 }
