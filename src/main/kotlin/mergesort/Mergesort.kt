@@ -27,7 +27,7 @@ internal object Mergesort {
             } else if (indexTwo >= arrayTwo.size) {
                 array[i + firstIndex] = arrayOne[indexOne++]
             } else {
-                if (arrayOne[indexOne] <= arrayTwo[indexTwo]) {
+                if (arrayOne[indexOne] < arrayTwo[indexTwo]) {
                     array[i + firstIndex] = arrayOne[indexOne++]
                 } else {
                     array[i + firstIndex] = arrayTwo[indexTwo++]
