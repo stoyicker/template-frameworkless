@@ -18,7 +18,7 @@ internal object Mergesort {
     private fun merge(array: IntArray, firstIndex: Int, middleIndex: Int, lastIndex: Int) {
         val arrayOne = array.slice(firstIndex..middleIndex)
         val arrayTwo = array.slice(middleIndex + 1..lastIndex)
-        val ret = IntArray(lastIndex - firstIndex + 1)
+        val ret = IntArray(arrayOne.size + arrayTwo.size)
         var i = 0
         var indexOne = 0
         var indexTwo = 0
