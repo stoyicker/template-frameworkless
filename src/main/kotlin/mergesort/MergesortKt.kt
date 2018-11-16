@@ -1,6 +1,6 @@
 package mergesort
 
-internal object Mergesort {
+internal object MergesortKt {
     fun intArray(array: IntArray) {
         if (array.size >= 2)
             mergesort(array, 0, array.size - 1)
