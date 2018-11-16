@@ -1,10 +1,9 @@
 package main;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 final class Node<T> {
-    // TODO BFS and DFS too
     final T value;
     final Node<T> left;
     final Node<T> right;
@@ -16,8 +15,10 @@ final class Node<T> {
     }
 
     List<T> preOrder() {
-        List<T> list = new ArrayList<>();
-        list.add(value);
+        List<T> list = new LinkedList<>();
+        if (value != null) {
+            list.add(value);
+        }
         if (left != null) {
             list.addAll(left.preOrder());
         }
@@ -28,11 +29,13 @@ final class Node<T> {
     }
 
     List<T> inOrder() {
-        List<T> list = new ArrayList<>();
+        List<T> list = new LinkedList<>();
         if (left != null) {
             list.addAll(left.inOrder());
         }
-        list.add(value);
+        if (value != null) {
+            list.add(value);
+        }
         if (right != null) {
             list.addAll(right.inOrder());
         }
@@ -40,14 +43,24 @@ final class Node<T> {
     }
 
     List<T> postOrder() {
-        List<T> list = new ArrayList<>();
+        List<T> list = new LinkedList<>();
         if (left != null) {
             list.addAll(left.postOrder());
         }
         if (right != null) {
             list.addAll(right.postOrder());
         }
-        list.add(value);
+        if (value != null) {
+            list.add(value);
+        }
         return list;
+    }
+
+    List<T> bfs() {
+        return preOrder();
+    }
+
+    List<T> dfs() {
+        return postOrder();
     }
 }
