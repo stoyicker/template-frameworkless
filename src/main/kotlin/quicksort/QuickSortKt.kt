@@ -1,6 +1,6 @@
 package quicksort
 
-internal object QuickSort {
+internal object QuickSortKt {
     fun on(array: Array<Int>) {
         quickSort(0, array.size - 1, array)
     }
