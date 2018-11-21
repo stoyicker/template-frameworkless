@@ -55,12 +55,4 @@ final class Node<T> {
         }
         return list;
     }
-
-    List<T> bfs() {
-        return preOrder();
-    }
-
-    List<T> dfs() {
-        return postOrder();
-    }
 }
