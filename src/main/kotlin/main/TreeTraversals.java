@@ -93,65 +93,6 @@ final class TreeTraversals {
         return ret;
     }
 
-    static <T> List<T> bfs(T[] array) {
-        final LinkedList<T> ret = new LinkedList<>();
-        Stack<Integer> indexes = new Stack<>();
-        indexes.push(0);
-        int thisIndex;
-        int leftIndex;
-        int rightIndex;
-        while(!indexes.isEmpty()) {
-            thisIndex = indexes.pop();
-            if (array[thisIndex] != null) {
-                ret.add(array[thisIndex]);
-            }
-            rightIndex = rightIndex(array, thisIndex);
-            if (rightIndex < array.length) {
-                indexes.push(rightIndex);
-            }
-            leftIndex = leftIndex(array, thisIndex);
-            if (leftIndex < array.length) {
-                indexes.push(leftIndex);
-            }
-        }
-        return ret;
-    }
-
-    static <T> List<T> dfs(T[] array) {
-        final LinkedList<T> ret = new LinkedList<>();
-        Stack<Integer> indexes = new Stack<>();
-        indexes.push(0);
-        boolean[] visited = new boolean[array.length];
-        int thisIndex;
-        int leftIndex;
-        int rightIndex;
-        int parentIndex;
-        do {
-            thisIndex = indexes.pop();
-            rightIndex = rightIndex(array, thisIndex);
-            leftIndex = leftIndex(array, thisIndex);
-            if (visited[thisIndex]) {
-                continue;
-            }
-            if (rightIndex < array.length && !visited[rightIndex]) {
-                indexes.push(rightIndex);
-            }
-            if (leftIndex < array.length && !visited[leftIndex] ) {
-                indexes.push(leftIndex);
-            }
-            if ((rightIndex >= array.length || visited[rightIndex])
-                    && (leftIndex >= array.length || visited[leftIndex])) {
-                ret.add(array[thisIndex]);
-                parentIndex = parentIndex(array, thisIndex);
-                if (parentIndex != -1) {
-                    indexes.push(parentIndex);
-                    visited[thisIndex] = true;
-                }
-            }
-        } while (!indexes.isEmpty());
-        return ret;
-    }
-
     private static int parentIndex(Object[] array, int i) {
         if (i == 0) {
             return -1;
