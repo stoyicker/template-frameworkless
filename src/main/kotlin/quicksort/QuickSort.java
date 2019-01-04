@@ -14,12 +14,12 @@ public final class QuickSort {
                 leftIndexInternal++;
             }
             while (array[rightIndexInternal] >= pivot) {
-                rightIndexInternal++;
+                rightIndexInternal--;
             }
             if (leftIndexInternal <= rightIndexInternal) {
                 swap(array, leftIndexInternal, rightIndexInternal);
                 leftIndexInternal++;
-                rightIndexInternal++;
+                rightIndexInternal--;
             }
         }
         if (leftIndex < rightIndexInternal) {
