@@ -5,32 +5,33 @@ public final class QuickSort {
         quicksort(array, 0, array.length - 1);
     }
 
-    private static void quicksort(int[] array, int leftIndex, int rightIndex) {
-        int pivot = array[(rightIndex + leftIndex) / 2];
-        int leftIndexInternal = leftIndex;
-        int rightIndexInternal = rightIndex;
-        while (leftIndexInternal <= rightIndexInternal) {
-            while (array[leftIndexInternal] <= pivot) {
-                leftIndexInternal++;
+    private void quicksort(int[] array, int left, int right) {
+        int pivot = array[left + (right - left) / 2];
+        int leftInternal = left;
+        int rightInternal = right;
+        while (leftInternal <= rightInternal) {
+            while (leftInternal < array.length && pivot > array[leftInternal]) {
+                leftInternal++;    
             }
-            while (array[rightIndexInternal] >= pivot) {
-                rightIndexInternal--;
+            while (rightInternal >= 0 && pivot < array[rightInternal]) {
+                rightInternal--;
             }
-            if (leftIndexInternal <= rightIndexInternal) {
-                swap(array, leftIndexInternal, rightIndexInternal);
-                leftIndexInternal++;
-                rightIndexInternal--;
+            if (leftInternal <= rightInternal) {
+                // If they're the same index, no need to swap, but still gotta update the indexes
+                swap(array, leftInternal, rightInternal);
+                leftInternal++;
+                rightInternal--;
             }
         }
-        if (leftIndex < rightIndexInternal) {
-            quicksort(array, leftIndex, rightIndexInternal);
+        if (leftInternal < right) {
+            quicksort(array, leftInternal, right);
         }
-        if (rightIndex > leftIndexInternal) {
-            quicksort(array, leftIndexInternal, rightIndex);
+        if (rightInternal > left) {
+            quicksort(array, left, rightInternal);
         }
     }
-
-    private static void swap(int[] array, int i, int j) {
+    
+    private void swap(int[] array, int i, int j) {
         int t = array[i];
         array[i] = array[j];
         array[j] = t;
