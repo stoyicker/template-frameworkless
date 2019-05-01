@@ -1,6 +1,7 @@
 
 import impl.bits.Bits
 import impl.hashcode.Item
+import permutations.Permutations
 import trees.Node
 import twosum.TwoSum
 import zipf.Song
@@ -12,6 +13,7 @@ fun main(args: Array<String>) {
 	zipF()
 	twoSum()
 	trees()
+	permutations()
 }
 
 private fun bit() {
@@ -75,4 +77,11 @@ private fun trees() {
 	System.out.println("Pre-order: 	${recursiveTree.preOrder()}")
 	System.out.println("In-order: 	${recursiveTree.inOrder()}")
 	System.out.println("Post-order: ${recursiveTree.postOrder()}")
+}
+
+private fun permutations() {
+	System.out.println("Hello project")
+	Permutations.of("abc").forEach {
+		System.out.println(it)
+	}
 }
