@@ -5,9 +5,9 @@ import zipf.Song
 import zipf.Zipf
 
 fun main(args: Array<String>) {
-//	bit()
-//	hashcode()
-//	zipF()
+	bit()
+	hashcode()
+	zipF()
 	twoSum()
 }
 
