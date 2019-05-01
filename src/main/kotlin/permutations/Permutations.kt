@@ -12,7 +12,7 @@ internal object Permutations {
                 when (subject.length) {
                     1 -> listOf(next + subject, subject + next)
                     else -> permutations(subject.substring(0, subject.length - 1), subject[subject.length - 1])
-                            .flatMap { append(it, next) }
+                            .flatMap { appendAtEachIndex(it, next) }
                 }
             } else {
                 when (subject.length) {
@@ -21,7 +21,7 @@ internal object Permutations {
                 }
             }
 
-    private fun append(subject: String, pivot: Char) = (0 until subject.length + 1).map {
+    private fun appendAtEachIndex(subject: String, pivot: Char) = (0 until subject.length + 1).map {
             subject.substring(0 until it) +
                     pivot +
                     subject.substring(it until subject.length)
