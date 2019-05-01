@@ -1,4 +1,4 @@
-package lrucache
+package impl.lrucache
 
 internal class LinearBigOLRUBoundedCache<T>(maxCapacity: Int) : BoundedCache<T>(maxCapacity) {
     private var delegate = mutableMapOf<String, ValueWrapper<T>>()

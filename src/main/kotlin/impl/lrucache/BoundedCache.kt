@@ -1,4 +1,4 @@
-package lrucache
+package impl.lrucache
 
 import kotlin.properties.Delegates
 
