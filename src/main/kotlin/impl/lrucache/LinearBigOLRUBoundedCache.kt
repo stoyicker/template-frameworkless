@@ -26,13 +26,4 @@ internal class LinearBigOLRUBoundedCache<T>(maxCapacity: Int) : BoundedCache<T>(
             }
         }.let { delegate.remove(it) }
     }
-
-    private class ValueWrapper<out T>(
-            var usage: Long = System.currentTimeMillis(),
-            private val value: T?) {
-        fun get(): T? {
-            usage = System.currentTimeMillis()
-            return value
-        }
-    }
 }
