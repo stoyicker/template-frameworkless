@@ -1,6 +1,6 @@
 package impl.lrucache
 
-internal class LinearBigOLRUBoundedCache<T>(maxCapacity: Int) : BoundedCache<T>(maxCapacity) {
+internal class LinearBigOLruBoundedCache<T>(maxCapacity: Int) : BoundedCache<T>(maxCapacity) {
     private var delegate = mutableMapOf<String, ValueWrapper<T>>()
 
     override fun put(key: String, value: T) {

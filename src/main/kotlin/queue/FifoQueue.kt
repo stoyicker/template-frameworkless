@@ -1,8 +1,8 @@
 package queue
 
-import stack.Stack
+import java.util.Stack
 
-internal class Queue<T> {
+internal class FifoQueue<T> {
     private val incoming = Stack<T>()
     private val removal = Stack<T>()
 
@@ -11,15 +11,11 @@ internal class Queue<T> {
     }
 
     fun dequeue(): T {
-        return if (!removal.isEmpty()) {
-            removal.pop()
-        } else if (!incoming.isEmpty()) {
+        if (removal.isEmpty() && !incoming.isEmpty()) {
             do {
                 removal.push(incoming.pop())
             } while (incoming.isEmpty())
-            removal.pop()
-        } else {
-            throw IllegalStateException("Cannot dequeue from an empty queue")
         }
+        return removal.pop()
     }
 }
