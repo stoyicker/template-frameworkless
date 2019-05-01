@@ -1,13 +1,16 @@
+
 import impl.bits.Bits
 import impl.hashcode.Item
 import impl.mergesort.Mergesort
 import impl.permutations.Permutations
+import impl.quicksort.QuickSort
 import impl.reversestack.Stack
 import impl.reversestack.StackReverser
 import impl.trees.Node
 import impl.twosum.TwoSum
 import impl.zipf.Song
 import impl.zipf.Zipf
+import java.util.Arrays
 
 fun main(args: Array<String>) {
 	bit()
@@ -18,6 +21,7 @@ fun main(args: Array<String>) {
 	permutations()
 	reverseStack()
 	mergesort()
+	quicksort()
 }
 
 private fun bit() {
@@ -115,4 +119,11 @@ private fun mergesort() {
 	System.out.println("\n--------\n")
 	System.out.println("\n--------\n")
 	forArray(shortArray)
+}
+
+private fun quicksort() {
+	val array = intArrayOf(3,9,6,-21,8,0,8912312,5)
+	System.out.println("Before sorting: ${Arrays.toString(array)}")
+	QuickSort.intArray(array)
+	System.out.println("After sorting: ${Arrays.toString(array)}")
 }
