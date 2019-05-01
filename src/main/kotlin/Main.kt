@@ -2,6 +2,8 @@
 import impl.bits.Bits
 import impl.hashcode.Item
 import impl.permutations.Permutations
+import impl.reversestack.Stack
+import impl.reversestack.StackReverser
 import impl.trees.Node
 import impl.twosum.TwoSum
 import impl.zipf.Song
@@ -14,6 +16,7 @@ fun main(args: Array<String>) {
 	twoSum()
 	trees()
 	permutations()
+	reverseStack()
 }
 
 private fun bit() {
@@ -84,4 +87,14 @@ private fun permutations() {
 	Permutations.of("abc").forEach {
 		System.out.println(it)
 	}
+}
+
+private fun reverseStack() {
+	val stack = Stack<Int>()
+	(0 until 10).forEach {
+		stack.push(it)
+	}
+	System.out.println("Before reversal: $stack")
+	StackReverser.reverse(stack)
+	System.out.println("After reversal: $stack")
 }
