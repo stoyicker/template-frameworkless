@@ -1,6 +1,6 @@
-
 import impl.bits.Bits
 import impl.hashcode.Item
+import impl.mergesort.Mergesort
 import impl.permutations.Permutations
 import impl.reversestack.Stack
 import impl.reversestack.StackReverser
@@ -17,6 +17,7 @@ fun main(args: Array<String>) {
 	trees()
 	permutations()
 	reverseStack()
+	mergesort()
 }
 
 private fun bit() {
@@ -97,4 +98,21 @@ private fun reverseStack() {
 	System.out.println("Before reversal: $stack")
 	StackReverser.reverse(stack)
 	System.out.println("After reversal: $stack")
+}
+
+private fun mergesort() {
+	val forArray: (IntArray) -> Unit = { array ->
+		System.out.println("UNSORTED")
+		array.forEach { System.out.print("$it ") }
+		Mergesort.intArray(array)
+		System.out.println("\n--------\n")
+		System.out.println("SORTED")
+		array.forEach { System.out.print("$it ") }
+	}
+	val array = intArrayOf(9, 2, 1, 4, -89, 7)
+	val shortArray = intArrayOf(2, 1)
+	forArray(array)
+	System.out.println("\n--------\n")
+	System.out.println("\n--------\n")
+	forArray(shortArray)
 }
