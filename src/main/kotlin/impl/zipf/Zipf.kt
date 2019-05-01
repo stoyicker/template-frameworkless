@@ -1,4 +1,4 @@
-package zipf
+package impl.zipf
 
 import java.util.PriorityQueue
 

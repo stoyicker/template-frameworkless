@@ -1,4 +1,4 @@
-package permutations
+package impl.permutations
 
 internal object Permutations {
     fun of(target: String) = when (target.length) {

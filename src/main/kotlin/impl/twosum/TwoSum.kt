@@ -1,4 +1,4 @@
-package twosum
+package impl.twosum
 
 internal object TwoSum {
 	fun twoSum(array: IntArray, sum: Int): List<Pair<Int, Int>> {

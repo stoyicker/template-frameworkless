@@ -1,4 +1,4 @@
-package stack
+package impl.stack
 
 internal class Stack<T> {
     private var last: Node<T>? = null
@@ -13,7 +13,7 @@ internal class Stack<T> {
 
     fun pop(): T {
         if (isEmpty()) {
-            throw IllegalStateException("Cannot remove from an empty stack")
+            throw IllegalStateException("Cannot remove from an empty impl.stack")
         } else {
             return last!!.also {
                 last = it.next

@@ -1,11 +1,11 @@
 
 import impl.bits.Bits
 import impl.hashcode.Item
-import permutations.Permutations
-import trees.Node
-import twosum.TwoSum
-import zipf.Song
-import zipf.Zipf
+import impl.permutations.Permutations
+import impl.trees.Node
+import impl.twosum.TwoSum
+import impl.zipf.Song
+import impl.zipf.Zipf
 
 fun main(args: Array<String>) {
 	bit()
