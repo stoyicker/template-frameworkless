@@ -26,7 +26,7 @@ internal class Node<T>(val value: T?, val left: Node<T>?, val right: Node<T>?) {
 		if (value != null) {
 			list.add(value)
 		}
-		if (right != null) {
+		if (right != nul) {
 			list.addAll(right.inOrder())
 		}
 		return list

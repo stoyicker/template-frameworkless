@@ -1,17 +1,17 @@
+
 import impl.bits.Bits
 import impl.hashcode.Item
 import trees.Node
-import trees.TreeTraversals
 import twosum.TwoSum
 import zipf.Song
 import zipf.Zipf
-import java.util.Arrays
 
 fun main(args: Array<String>) {
 	bit()
 	hashcode()
 	zipF()
 	twoSum()
+	trees()
 }
 
 private fun bit() {
@@ -72,39 +72,7 @@ private fun trees() {
 							Node(18,
 									null,
 									null)))
-	System.out.println("RECURSIVE")
 	System.out.println("Pre-order: 	${recursiveTree.preOrder()}")
 	System.out.println("In-order: 	${recursiveTree.inOrder()}")
 	System.out.println("Post-order: ${recursiveTree.postOrder()}")
-	System.out.println("BFS: 		${recursiveTree.bfs()}")
-	System.out.println("DFS: 		${recursiveTree.dfs()}")
-	System.out.println("")
-	val arrayTree = arrayOf(10, 5, 15, 3, 7, null, 18)
-	System.out.println("ARRAY")
-	System.out.println("Pre-order: 	${TreeTraversals.preOrder(arrayTree)}")
-	System.out.println("In-order: 	${TreeTraversals.inOrder(arrayTree)}")
-	System.out.println("Post-order: ${TreeTraversals.postOrder(arrayTree)}")
-	System.out.println("BFS: 		${TreeTraversals.bfs(arrayTree)}")
-	System.out.println("DFS: 		${TreeTraversals.dfs(arrayTree)}")
-	throwAssert(Arrays.deepEquals(
-			recursiveTree.preOrder().toTypedArray(),
-			TreeTraversals.preOrder(arrayTree).toTypedArray()))
-	throwAssert(Arrays.deepEquals(
-			recursiveTree.inOrder().toTypedArray(),
-			TreeTraversals.inOrder(arrayTree).toTypedArray()))
-	throwAssert(Arrays.deepEquals(
-			recursiveTree.postOrder().toTypedArray(),
-			TreeTraversals.postOrder(arrayTree).toTypedArray()))
-	throwAssert(Arrays.deepEquals(
-			recursiveTree.bfs().toTypedArray(),
-			TreeTraversals.bfs(arrayTree).toTypedArray()))
-	throwAssert(Arrays.deepEquals(
-			recursiveTree.dfs().toTypedArray(),
-			TreeTraversals.dfs(arrayTree).toTypedArray()))
-}
-
-fun throwAssert(value: Boolean) {
-	if (!value) {
-		throw IllegalStateException()
-	}
 }
