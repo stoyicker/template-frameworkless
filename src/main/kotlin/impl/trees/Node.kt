@@ -2,6 +2,9 @@ package impl.trees
 
 import java.util.LinkedList
 
+/**
+ * All of these are using DFS.
+ */
 internal class Node<T>(val value: T?, val left: Node<T>?, val right: Node<T>?) {
 
 	fun preOrder(): List<T> {
