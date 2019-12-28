@@ -18,19 +18,19 @@ internal object Mergesort {
     private fun merge(array: IntArray, firstIndex: Int, middleIndex: Int, lastIndex: Int) {
         val arrayOne = array.slice(firstIndex..middleIndex)
         val arrayTwo = array.slice(middleIndex + 1..lastIndex)
-        var i = 0
+        var i = firstIndex
         var indexOne = 0
         var indexTwo = 0
         while (indexOne < arrayOne.size || indexTwo < arrayTwo.size) {
             if (indexOne >= arrayOne.size) {
-                array[i + firstIndex] = arrayTwo[indexTwo++]
+                array[i] = arrayTwo[indexTwo++]
             } else if (indexTwo >= arrayTwo.size) {
-                array[i + firstIndex] = arrayOne[indexOne++]
+                array[i] = arrayOne[indexOne++]
             } else {
                 if (arrayOne[indexOne] < arrayTwo[indexTwo]) {
-                    array[i + firstIndex] = arrayOne[indexOne++]
+                    array[i] = arrayOne[indexOne++]
                 } else {
-                    array[i + firstIndex] = arrayTwo[indexTwo++]
+                    array[i] = arrayTwo[indexTwo++]
                 }
             }
             i++
